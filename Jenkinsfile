@@ -3,12 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/shweta2071990/dqe-automation.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'pip install pytest pytest-html'
@@ -17,7 +11,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'python -m pytest --html=report.html --self-contained-html'
+                sh 'python -m pytest tests --html=report.html --self-contained-html'
             }
         }
     }
