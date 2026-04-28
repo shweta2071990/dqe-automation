@@ -2,26 +2,29 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Dependencies') {
+
+        stage('Checkout') {
             steps {
-                sh 'echo Installing dependencies...'
+                git 'https://github.com/shweta2071990/dqe-automation.git'
             }
         }
 
-        stage('Run Pipeline') {
+        stage('Install Dependencies') {
             steps {
-                sh '''
-                echo Running data pipeline...
-                mkdir -p parquet_data
-                mkdir -p generated_report
-
-                echo "dummy parquet file" > parquet_data/facility_type_avg_time_spent_per_visit_date
-                echo "dummy parquet file" > parquet_data/facility_name_min_time_spent_per_visit_date
-                echo "dummy parquet file" > parquet_data/patient_sum_treatment_cost_per_facility_type
-
-                echo "<html><body>Report</body></html>" > generated_report/report.html
-                '''
+                sh 'pip install pytest pytest-html'
             }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'python -m pytest --html=report.html --self-contained-html'
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'report.html', fingerprint: true
         }
     }
 }
