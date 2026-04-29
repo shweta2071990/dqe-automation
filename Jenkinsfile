@@ -1,17 +1,21 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9'
+        }
+    }
 
     stages {
 
         stage('Install Dependencies') {
             steps {
-                sh 'python -m pip install pytest pytest-html'
+                sh 'pip install pytest pytest-html'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'python -m pytest tests --html=report.html --self-contained-html'
+                sh 'pytest tests --html=report.html --self-contained-html'
             }
         }
     }
