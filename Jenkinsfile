@@ -9,11 +9,11 @@ pipeline {
             }
         }
 
-        stage('Install Python') {
+        stage('Install System Dependencies') {
             steps {
                 sh '''
                 apt-get update
-                apt-get install -y python3 python3-venv python3-pip
+                apt-get install -y python3 python3-venv python3-pip libpq-dev gcc
                 '''
             }
         }
@@ -24,7 +24,7 @@ pipeline {
                 python3 -m venv venv
                 . venv/bin/activate
                 pip install --upgrade pip
-                pip install pytest pytest-html
+                pip install pytest pytest-html psycopg2-binary pandas
                 '''
             }
         }
