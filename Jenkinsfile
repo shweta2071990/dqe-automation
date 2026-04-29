@@ -5,13 +5,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'python3 -m pip install pytest pytest-html'
+                sh 'python -m pip install pytest pytest-html'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'python3 -m pytest tests --html=report.html --self-contained-html'
+                sh 'python -m pytest tests --html=report.html --self-contained-html'
             }
         }
     }
