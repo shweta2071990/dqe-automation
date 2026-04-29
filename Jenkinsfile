@@ -5,20 +5,20 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip install pytest pytest-html'
+                sh 'python3 -m pip install pytest pytest-html'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'python -m pytest tests --html=report.html --self-contained-html'
+                sh 'python3 -m pytest tests --html=report.html --self-contained-html'
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: 'report.html', fingerprint: true
+            archiveArtifacts artifacts: '**/*.html', fingerprint: true
         }
     }
 }
